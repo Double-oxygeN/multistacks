@@ -37,6 +37,11 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - 67:3c:99:37:72:c4:bd:6a:3e:39:f4:af:a6:03:1e:5e
+      - run:
+          name: Add GitHub as known hosts
+          command: |
+            mkdir -pv ~/.ssh
+            echo 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' >> ~/.ssh/known_hosts
       - checkout
       - generate-docs:
           out-dir: ../docs
