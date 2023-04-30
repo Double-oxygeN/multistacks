@@ -1,5 +1,16 @@
 version: 2.1
 
+commands:
+  generate-docs:
+    description: Generate documentation.
+    parameters:
+      out-dir:
+        type: string
+        default: docs
+    steps:
+      - run:
+          command: nim doc --project --outDir:<<parameters.out-dir>> --git.url:'https://github.com/Double-oxygeN/multistack' --git.commit:$CIRCLE_BRANCH src/multistack
+
 jobs:
   exec-tests_1_6_12:
     docker:
@@ -10,15 +21,36 @@ jobs:
       - run:
           name: Executes test suite
           command: nimble test
-      - run:
-          name: Executes runnable examples
-          command: nim doc --project --outDir:docs --git.url:'https://github.com/Double-oxygeN/multistack' --git.commit:$CIRCLE_BRANCH src/multistack
+      - generate-docs
 
   exec-tests_latest:
     docker:
       - image: nimlang/nim:latest
 
     steps: *steps-tests
+
+  update-docs:
+    docker:
+      - image: nimlang/nim:1.6.12
+
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - 67:3c:99:37:72:c4:bd:6a:3e:39:f4:af:a6:03:1e:5e
+      - checkout
+      - generate-docs:
+          out-dir: ../docs
+      - run:
+          name: Push to GitHub Pages
+          command: |
+            git config --global user.email $GIT_CONFIG_USER_EMAIL
+            git config --global user.name $GIT_CONFIG_USERNAME
+            git checkout docs || git checkout --orphan docs
+            git reset
+            cp -R ../docs ./
+            git add docs
+            git commit -m ':memo: Update documentation [ci skip]'
+            git push --force-with-lease origin docs
 
 workflows:
   exec-tests-and-generate-docs:
@@ -30,4 +62,12 @@ workflows:
 
       - exec-tests_latest:
           filters: *filters-tests
+
+      - update-docs:
+          requires:
+            - exec-tests_1_6_12
+            - exec-tests_latest
+          filters:
+            branches:
+              only: master
 
