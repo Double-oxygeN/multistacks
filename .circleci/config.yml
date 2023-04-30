@@ -5,7 +5,7 @@ jobs:
     docker:
       - image: nimlang/nim:1.6.12
 
-    steps:
+    steps: &steps-tests
       - checkout
       - run:
           name: Executes test suite
@@ -14,11 +14,20 @@ jobs:
           name: Executes runnable examples
           command: nim doc --project --outDir:docs --git.url:'https://github.com/Double-oxygeN/multistack' --git.commit:$CIRCLE_BRANCH src/multistack
 
+  exec-tests_latest:
+    docker:
+      - image: nimlang/nim:latest
+
+    steps: *steps-tests
+
 workflows:
   exec-tests-and-generate-docs:
     jobs:
       - exec-tests_1_6_12:
-          filters:
+          filters: &filters-tests
             branches:
               ignore: docs
+
+      - exec-tests_latest:
+          filters: *filters-tests
 
