@@ -53,7 +53,7 @@ jobs:
             git checkout docs || git checkout --orphan docs
             git reset
             cp -R ../docs ./
-            git add docs
+            git add docs .circleci
             git commit -m ':memo: Update documentation [ci skip]'
             git push --force-with-lease origin docs
 
