@@ -1,0 +1,24 @@
+version: 2.1
+
+jobs:
+  exec-tests_1_6_12:
+    docker:
+      - image: nimlang/nim:1.6.12
+
+    steps:
+      - checkout
+      - run:
+          name: Executes test suite
+          command: nimble test
+      - run:
+          name: Executes runnable examples
+          command: nim doc --project --outDir:docs --git.url:$CIRCLE_REPOSITORY_URL --git.commit:$CIRCLE_BRANCH src/multistack
+
+workflows:
+  exec-tests-and-generate-docs:
+    jobs:
+      - exec-tests_1_6_12:
+          filters:
+            branches:
+              ignore: docs
+
