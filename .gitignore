@@ -20,6 +20,7 @@
 nimcache/
 nimblecache/
 htmldocs/
+testresults/
 
 ### OSX ###
 # General
