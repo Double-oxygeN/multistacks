@@ -10,3 +10,6 @@ srcDir        = "src"
 # Dependencies
 
 requires "nim >= 1.6.12"
+
+task test, "Executes tests w/testament.":
+  exec "testament category /"
