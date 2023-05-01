@@ -68,15 +68,23 @@ proc push*[T](stack: var MultiStack[T]; valuesByTopIndex: openArray[seq[T]]) =
     if valuesByTopIndex.len > 1:
       raise ValueError.newException("Top index must be 0 when stack is empty.")
 
+    if valuesByTopIndex[0].len == 0:
+      # Nothing to do.
+      return
+
     for i, value in valuesByTopIndex[0]:
       stack.tops.add newMultiStackNode[T](value, i)
 
   else:
     if valuesByTopIndex.len != stack.tops.len:
-      raise ValueError.newException("Top index is out of range.")
+      raise ValueError.newException("The length of valuesByTopIndex must be equal to the length of tops.")
 
-    var newTops: seq[MultiStackNode[T]] = @[]
+    var
+      newTops: seq[MultiStackNode[T]] = @[]
+      pushValueCount = 0
+
     for topIndex, values in valuesByTopIndex:
+      inc pushValueCount, values.len
       if values.len == 0:
         stack.tops[topIndex].topIndexStack.add newTops.len
         newTops.add stack.tops[topIndex]
@@ -84,6 +92,10 @@ proc push*[T](stack: var MultiStack[T]; valuesByTopIndex: openArray[seq[T]]) =
       else:
         for value in values:
           newTops.add newMultiStackNode[T](value, newTops.len, stack.tops[topIndex])
+
+    if pushValueCount == 0:
+      # Nothing to do.
+      return
 
     stack.tops = newTops
 
