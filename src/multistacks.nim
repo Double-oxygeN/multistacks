@@ -27,7 +27,7 @@ func hasSameTopIndex[T](x, y: MultiStackNode[T]): bool =
   result = not x.isNil and not y.isNil and x.topIndexStack.len == y.topIndexStack.len and x.topIndexStack[^1] == y.topIndexStack[^1]
 
 
-func tops*[T](stack: MultiStack[T]): seq[T] =
+func peek*[T](stack: MultiStack[T]): seq[T] =
   ## Gets the top values of the stack.
   for top in stack.tops:
     result.add top.value
@@ -53,15 +53,15 @@ proc push*[T](stack: var MultiStack[T]; valuesByTopIndex: openArray[seq[T]]) =
     var stack = newMultiStack[int]()
 
     stack.push([@[1, 2, 3]])
-    assert stack.tops == @[1, 2, 3]
+    assert stack.peek() == @[1, 2, 3]
     assert stack.height == 1
 
     stack.push([@[4, 5], @[], @[6]])
-    assert stack.tops == @[4, 5, 2, 6]
+    assert stack.peek() == @[4, 5, 2, 6]
     assert stack.height == 2
 
     stack.push([@[], @[7, 8, 9], @[], @[10]])
-    assert stack.tops == @[4, 7, 8, 9, 2, 10]
+    assert stack.peek() == @[4, 7, 8, 9, 2, 10]
     assert stack.height == 3
 
   if stack.height == 0:
@@ -112,15 +112,15 @@ proc push*[T](stack: var MultiStack[T]; values: openArray[T]; onTopIndices: open
     var stack = newMultiStack[int]()
 
     stack.push([1, 2, 3], [0.Natural, 0, 0])
-    assert stack.tops == @[1, 2, 3]
+    assert stack.peek() == @[1, 2, 3]
     assert stack.height == 1
 
     stack.push([4, 5, 6], [0.Natural, 0, 2])
-    assert stack.tops == @[4, 5, 2, 6]
+    assert stack.peek() == @[4, 5, 2, 6]
     assert stack.height == 2
 
     stack.push([7, 8, 9, 10], [1.Natural, 1, 1, 3])
-    assert stack.tops == @[4, 7, 8, 9, 2, 10]
+    assert stack.peek() == @[4, 7, 8, 9, 2, 10]
     assert stack.height == 3
 
   if values.len != onTopIndices.len:
@@ -150,18 +150,18 @@ proc pop*[T](stack: var MultiStack[T]; topIndex: Natural): T =
 
     stack.push([@[0, 1, 2]])
     assert stack.pop(0) == 0
-    assert stack.tops.len == 0
+    assert stack.peek().len == 0
     assert stack.height == 0
 
     stack.push([@[0, 1, 2]])
     stack.push([@[3, 4], @[], @[5]])
     stack.push([@[], @[6, 7, 8], @[], @[9]])
     assert stack.pop(3) == 8
-    assert stack.tops == @[3, 4, 1, 5]
+    assert stack.peek() == @[3, 4, 1, 5]
     assert stack.height == 2
 
     assert stack.pop(2) == 1
-    assert stack.tops.len == 0
+    assert stack.peek().len == 0
     assert stack.height == 0
 
   if stack.height == 0:
