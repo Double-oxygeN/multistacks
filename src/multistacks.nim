@@ -34,6 +34,57 @@ func height*[T](stack: MultiStack[T]): Natural =
   result = stack.height
 
 
+proc newMultiStackNode[T](value: T; topIndex: Natural; parent: MultiStackNode[T] = nil): MultiStackNode[T] =
+  result = MultiStackNode[T](value: value, parent: parent, topIndexStack: @[topIndex])
+
+
 proc newMultiStack*[T](): MultiStack[T] =
   ## Creates a new empty stack.
   result = MultiStack[T](tops: @[], height: 0)
+
+
+proc push*[T](stack: var MultiStack[T]; valuesByTopIndex: openArray[seq[T]]) =
+  ## Pushes the given values on each tops of the stack.
+  runnableExamples:
+    var stack = newMultiStack[int]()
+
+    stack.push([@[1, 2, 3]])
+    assert stack.tops == @[1, 2, 3]
+    assert stack.height == 1
+
+    stack.push([@[4, 5], @[], @[6]])
+    assert stack.tops == @[4, 5, 2, 6]
+    assert stack.height == 2
+
+    stack.push([@[], @[7, 8, 9], @[], @[10]])
+    assert stack.tops == @[4, 7, 8, 9, 2, 10]
+    assert stack.height == 3
+
+  if stack.height == 0:
+    if valuesByTopIndex.len == 0:
+      # Nothing to do.
+      return
+
+    if valuesByTopIndex.len > 1:
+      raise ValueError.newException("Top index must be 0 when stack is empty.")
+
+    for i, value in valuesByTopIndex[0]:
+      stack.tops.add newMultiStackNode[T](value, i)
+
+  else:
+    if valuesByTopIndex.len != stack.tops.len:
+      raise ValueError.newException("Top index is out of range.")
+
+    var newTops: seq[MultiStackNode[T]] = @[]
+    for topIndex, values in valuesByTopIndex:
+      if values.len == 0:
+        stack.tops[topIndex].topIndexStack.add newTops.len
+        newTops.add stack.tops[topIndex]
+
+      else:
+        for value in values:
+          newTops.add newMultiStackNode[T](value, newTops.len, stack.tops[topIndex])
+
+    stack.tops = newTops
+
+  inc stack.height
