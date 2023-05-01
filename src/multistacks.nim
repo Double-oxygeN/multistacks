@@ -88,3 +88,40 @@ proc push*[T](stack: var MultiStack[T]; valuesByTopIndex: openArray[seq[T]]) =
     stack.tops = newTops
 
   inc stack.height
+
+
+proc push*[T](stack: var MultiStack[T]; values: openArray[T]; onTopIndices: openArray[Natural]) =
+  ## Pushes the given values on the given tops of the stack.
+  runnableExamples:
+    var stack = newMultiStack[int]()
+
+    stack.push([1, 2, 3], [0.Natural, 0, 0])
+    assert stack.tops == @[1, 2, 3]
+    assert stack.height == 1
+
+    stack.push([4, 5, 6], [0.Natural, 0, 2])
+    assert stack.tops == @[4, 5, 2, 6]
+    assert stack.height == 2
+
+    stack.push([7, 8, 9, 10], [1.Natural, 1, 1, 3])
+    assert stack.tops == @[4, 7, 8, 9, 2, 10]
+    assert stack.height == 3
+
+  if values.len != onTopIndices.len:
+    raise ValueError.newException("Values and top indices must have the same length.")
+
+  var valuesByTopIndex: seq[seq[T]] = newSeqOfCap[seq[T]](max(1, stack.tops.len))
+  for i, value in values:
+    let topIndex = onTopIndices[i]
+    if (stack.height == 0 and topIndex != 0) or (stack.height > 0 and topIndex > stack.tops.high):
+      raise ValueError.newException("Top index is out of range.")
+
+    while valuesByTopIndex.high < topIndex:
+      valuesByTopIndex.add @[]
+
+    valuesByTopIndex[topIndex].add value
+
+  while valuesByTopIndex.high < stack.tops.high:
+    valuesByTopIndex.add @[]
+
+  stack.push(valuesByTopIndex)
