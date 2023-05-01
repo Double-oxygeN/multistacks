@@ -23,6 +23,10 @@ type
     height: Natural
 
 
+func hasSameTopIndex[T](x, y: MultiStackNode[T]): bool =
+  result = not x.isNil and not y.isNil and x.topIndexStack.len == y.topIndexStack.len and x.topIndexStack[^1] == y.topIndexStack[^1]
+
+
 func tops*[T](stack: MultiStack[T]): seq[T] =
   ## Gets the top values of the stack.
   for top in stack.tops:
@@ -137,3 +141,54 @@ proc push*[T](stack: var MultiStack[T]; values: openArray[T]; onTopIndices: open
     valuesByTopIndex.add @[]
 
   stack.push(valuesByTopIndex)
+
+
+proc pop*[T](stack: var MultiStack[T]; topIndex: Natural): T =
+  ## Pops the top value of the given top index.
+  runnableExamples:
+    var stack = newMultiStack[int]()
+
+    stack.push([@[0, 1, 2]])
+    assert stack.pop(0) == 0
+    assert stack.tops.len == 0
+    assert stack.height == 0
+
+    stack.push([@[0, 1, 2]])
+    stack.push([@[3, 4], @[], @[5]])
+    stack.push([@[], @[6, 7, 8], @[], @[9]])
+    assert stack.pop(3) == 8
+    assert stack.tops == @[3, 4, 1, 5]
+    assert stack.height == 2
+
+    assert stack.pop(2) == 1
+    assert stack.tops.len == 0
+    assert stack.height == 0
+
+  if stack.height == 0:
+    raise ValueError.newException("Stack is empty.")
+
+  if topIndex > stack.tops.high:
+    raise ValueError.newException("Top index is out of range.")
+
+  let selectedTop = stack.tops[topIndex]
+  result = selectedTop.value
+
+  var newTops: seq[MultiStackNode[T]] = @[]
+  for i, top in stack.tops:
+    discard top.topIndexStack.pop()
+
+    if top.topIndexStack.len == 0:
+      if newTops.len > 0 and top.parent.hasSameTopIndex(newTops[^1]):
+        continue
+
+      if not top.parent.isNil:
+        newTops.add top.parent
+
+    else:
+      newTops.add top
+
+  stack.tops = newTops
+  dec stack.height
+
+  if selectedTop.topIndexStack.len > 0:
+    result = stack.pop(selectedTop.topIndexStack[^1])
