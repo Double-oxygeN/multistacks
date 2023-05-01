@@ -2,6 +2,6 @@
 import unittest
 
 {.warning[UnusedImport]:off.}
-import multistack
+import multistacks
 
 check true

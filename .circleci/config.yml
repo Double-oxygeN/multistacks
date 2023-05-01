@@ -9,7 +9,7 @@ commands:
         default: docs
     steps:
       - run:
-          command: nim doc --project --outDir:<<parameters.out-dir>> --git.url:'https://github.com/Double-oxygeN/multistack' --git.commit:$CIRCLE_BRANCH src/multistack
+          command: nim doc --project --outDir:<<parameters.out-dir>> --git.url:'https://github.com/Double-oxygeN/multistacks' --git.commit:$CIRCLE_BRANCH src/multistacks
 
 jobs:
   exec-tests_1_6_12:
