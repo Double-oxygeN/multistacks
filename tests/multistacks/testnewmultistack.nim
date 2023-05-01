@@ -2,7 +2,7 @@ discard """
   targets: "c cpp js"
 """
 
-import unittest
+import std/unittest
 import ../../src/multistacks
 
 let multistack = newMultiStack[int]()
