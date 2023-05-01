@@ -1,0 +1,12 @@
+discard """
+  targets: "c cpp js"
+"""
+
+import std/unittest
+import ../../../src/multistacks
+
+var stack = newMultiStack[int]()
+stack.push([0, 1], [0.Natural, 0])
+stack.push([2], [0.Natural])
+check stack.tops == @[2, 1]
+check stack.height == 2
