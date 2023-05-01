@@ -18,7 +18,7 @@ type
     parent {.cursor.}: MultiStackNode[T]
     topIndexStack: seq[Natural]
 
-  MultiStack[T] = ref object
+  MultiStack*[T] = ref object
     tops: seq[MultiStackNode[T]]
     height: Natural
 
