@@ -1,0 +1,7 @@
+MultiStack	multistacks.html#MultiStack	multistacks: MultiStack	
+peek	multistacks.html#peek,MultiStack[T]	multistacks: peek[T](stack: MultiStack[T]): seq[T]	
+height	multistacks.html#height,MultiStack[T]	multistacks: height[T](stack: MultiStack[T]): Natural	
+newMultiStack	multistacks.html#newMultiStack	multistacks: newMultiStack[T](): MultiStack[T]	
+push	multistacks.html#push,MultiStack[T],openArray[seq[T]]	multistacks: push[T](stack: var MultiStack[T]; valuesByTopIndex: openArray[seq[T]])	
+push	multistacks.html#push,MultiStack[T],openArray[T],openArray[Natural]	multistacks: push[T](stack: var MultiStack[T]; values: openArray[T];\n        onTopIndices: openArray[Natural])	
+pop	multistacks.html#pop,MultiStack[T],Natural	multistacks: pop[T](stack: var MultiStack[T]; topIndex: Natural): T	
