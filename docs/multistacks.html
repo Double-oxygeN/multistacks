@@ -116,6 +116,11 @@ window.addEventListener('DOMContentLoaded', main);
     title="height[T](stack: MultiStack[T]): Natural">height[T](stack: MultiStack[T]): Natural</a></li>
 
   </ul>
+  <ul class="simple nested-toc-section">isEmpty
+      <li><a class="reference" href="#isEmpty%2CMultiStack%5BT%5D"
+    title="isEmpty[T](stack: MultiStack[T]): bool">isEmpty[T](stack: MultiStack[T]): bool</a></li>
+
+  </ul>
   <ul class="simple nested-toc-section">newMultiStack
       <li><a class="reference" href="#newMultiStack"
     title="newMultiStack[T](): MultiStack[T]">newMultiStack[T](): MultiStack[T]</a></li>
@@ -188,6 +193,28 @@ Gets the height of the stack.
 href="https://github.com/Double-oxygeN/multistacks/tree/master/src/multistacks.nim#L36"
 class="link-seesrc" target="_blank">Source</a>
 &nbsp;&nbsp;<a href="https://github.com/Double-oxygeN/multistacks/edit/devel/src/multistacks.nim#L36" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+</div>
+<div id="isEmpty,MultiStack[T]">
+<dt><pre><span class="Keyword">func</span> <a href="#isEmpty%2CMultiStack%5BT%5D"><span class="Identifier">isEmpty</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">stack</span><span class="Other">:</span> <a href="multistacks.html#MultiStack"><span class="Identifier">MultiStack</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span></pre></dt>
+<dd>
+
+Checks if the stack is empty.
+<p><strong class="examples_text">Example:</strong></p>
+<pre class="listing"><span class="Keyword">var</span> <span class="Identifier">stack</span> <span class="Operator">=</span> <span class="Identifier">newMultiStack</span><span class="Punctuation">[</span><span class="Identifier">int</span><span class="Punctuation">]</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
+
+<span class="Identifier">assert</span> <span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">isEmpty</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
+
+<span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">push</span><span class="Punctuation">(</span><span class="Punctuation">[</span><span class="Operator">@</span><span class="Punctuation">[</span><span class="DecNumber">1</span><span class="Punctuation">,</span> <span class="DecNumber">2</span><span class="Punctuation">,</span> <span class="DecNumber">3</span><span class="Punctuation">]</span><span class="Punctuation">]</span><span class="Punctuation">)</span>
+<span class="Identifier">assert</span> <span class="Keyword">not</span> <span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">isEmpty</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
+
+<span class="Keyword">discard</span> <span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">pop</span><span class="Punctuation">(</span><span class="DecNumber">0</span><span class="Punctuation">)</span>
+<span class="Identifier">assert</span> <span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">isEmpty</span><span class="Punctuation">(</span><span class="Punctuation">)</span></pre>
+&nbsp;&nbsp;<a
+href="https://github.com/Double-oxygeN/multistacks/tree/master/src/multistacks.nim#L197"
+class="link-seesrc" target="_blank">Source</a>
+&nbsp;&nbsp;<a href="https://github.com/Double-oxygeN/multistacks/edit/devel/src/multistacks.nim#L197" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 </div>
@@ -308,7 +335,7 @@ class="link-seesrc" target="_blank">Source</a>
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-05-01 10:37:56 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-05-05 06:05:57 UTC</small>
       </div>
     </div>
   </div>
