@@ -192,3 +192,18 @@ proc pop*[T](stack: var MultiStack[T]; topIndex: Natural): T =
 
   if selectedTop.topIndexStack.len > 0:
     result = stack.pop(selectedTop.topIndexStack[^1])
+
+
+func isEmpty*[T](stack: MultiStack[T]): bool =
+  ## Checks if the stack is empty.
+  runnableExamples:
+    var stack = newMultiStack[int]()
+
+    assert stack.isEmpty()
+
+    stack.push([@[1, 2, 3]])
+    assert not stack.isEmpty()
+
+    discard stack.pop(0)
+    assert stack.isEmpty()
+  result = stack.height == 0
