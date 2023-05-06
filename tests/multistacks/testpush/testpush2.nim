@@ -1,5 +1,6 @@
 discard """
-  target: "c cpp js"
+  targets: "c cpp js"
+  matrix: "--mm:orc;--mm:refc"
 """
 
 import std/unittest
