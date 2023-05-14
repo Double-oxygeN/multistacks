@@ -15,7 +15,7 @@
 type
   MultiStackNode[T] {.acyclic.} = ref object
     value: T
-    parent {.cursor.}: MultiStackNode[T]
+    parent: MultiStackNode[T]
     topIndexStack: seq[Natural]
 
   MultiStack*[T] = ref object
