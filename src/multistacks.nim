@@ -143,6 +143,49 @@ proc push*[T](stack: var MultiStack[T]; values: openArray[T]; onTopIndices: open
   stack.push(valuesByTopIndex)
 
 
+proc popSingle*[T](stack: var MultiStack[T]): seq[T] =
+  ## Pops the top values of the stack.
+  ## This procedure always reduces the height of the stack by 1.
+  ## If the stack is empty, an empty sequence is returned.
+  runnableExamples:
+    var stack = newMultiStack[int]()
+
+    stack.push([@[0, 1, 2]])
+    stack.push([@[3, 4], @[], @[5]])
+    stack.push([@[], @[6, 7, 8], @[], @[9]])
+    assert stack.popSingle() == @[3, 6, 7, 8, 1, 9]
+    assert stack.height == 2
+
+    assert stack.popSingle() == @[3, 4, 1, 5]
+    assert stack.height == 1
+
+    assert stack.popSingle() == @[0, 1, 2]
+    assert stack.height == 0
+
+    assert stack.popSingle().len == 0
+
+  if stack.height == 0:
+    return @[]
+
+  var newTops: seq[MultiStackNode[T]] = @[]
+  for i, top in stack.tops:
+    result.add top.value
+    discard top.topIndexStack.pop()
+
+    if top.topIndexStack.len == 0:
+      if newTops.len > 0 and top.parent.hasSameTopIndex(newTops[^1]):
+        continue
+
+      if not top.parent.isNil:
+        newTops.add top.parent
+
+    else:
+      newTops.add top
+
+  stack.tops = newTops
+  dec stack.height
+
+
 proc pop*[T](stack: var MultiStack[T]; topIndex: Natural): T =
   ## Pops the top value of the given top index.
   runnableExamples:
@@ -173,22 +216,7 @@ proc pop*[T](stack: var MultiStack[T]; topIndex: Natural): T =
   let selectedTop = stack.tops[topIndex]
   result = selectedTop.value
 
-  var newTops: seq[MultiStackNode[T]] = @[]
-  for i, top in stack.tops:
-    discard top.topIndexStack.pop()
-
-    if top.topIndexStack.len == 0:
-      if newTops.len > 0 and top.parent.hasSameTopIndex(newTops[^1]):
-        continue
-
-      if not top.parent.isNil:
-        newTops.add top.parent
-
-    else:
-      newTops.add top
-
-  stack.tops = newTops
-  dec stack.height
+  discard stack.popSingle()
 
   if selectedTop.topIndexStack.len > 0:
     result = stack.pop(selectedTop.topIndexStack[^1])
