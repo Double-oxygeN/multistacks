@@ -136,6 +136,11 @@ window.addEventListener('DOMContentLoaded', main);
     title="pop[T](stack: var MultiStack[T]; topIndex: Natural): T">pop[T](stack: var MultiStack[T]; topIndex: Natural): T</a></li>
 
   </ul>
+  <ul class="simple nested-toc-section">popSingle
+      <li><a class="reference" href="#popSingle%2CMultiStack%5BT%5D"
+    title="popSingle[T](stack: var MultiStack[T]): seq[T]">popSingle[T](stack: var MultiStack[T]): seq[T]</a></li>
+
+  </ul>
   <ul class="simple nested-toc-section">push
       <li><a class="reference" href="#push%2CMultiStack%5BT%5D%2CopenArray%5BT%5D%2CopenArray%5BNatural%5D"
     title="push[T](stack: var MultiStack[T]; values: openArray[T];
@@ -212,9 +217,9 @@ Checks if the stack is empty.
 <span class="Keyword">discard</span> <span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">pop</span><span class="Punctuation">(</span><span class="DecNumber">0</span><span class="Punctuation">)</span>
 <span class="Identifier">assert</span> <span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">isEmpty</span><span class="Punctuation">(</span><span class="Punctuation">)</span></pre>
 &nbsp;&nbsp;<a
-href="https://github.com/Double-oxygeN/multistacks/tree/master/src/multistacks.nim#L197"
+href="https://github.com/Double-oxygeN/multistacks/tree/master/src/multistacks.nim#L225"
 class="link-seesrc" target="_blank">Source</a>
-&nbsp;&nbsp;<a href="https://github.com/Double-oxygeN/multistacks/edit/devel/src/multistacks.nim#L197" class="link-seesrc" target="_blank" >Edit</a>
+&nbsp;&nbsp;<a href="https://github.com/Double-oxygeN/multistacks/edit/devel/src/multistacks.nim#L225" class="link-seesrc" target="_blank" >Edit</a>
 
 </dd>
 </div>
@@ -265,6 +270,34 @@ Pops the top value of the given top index.
 <span class="Identifier">assert</span> <span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">pop</span><span class="Punctuation">(</span><span class="DecNumber">2</span><span class="Punctuation">)</span> <span class="Operator">==</span> <span class="DecNumber">1</span>
 <span class="Identifier">assert</span> <span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">peek</span><span class="Punctuation">(</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">len</span> <span class="Operator">==</span> <span class="DecNumber">0</span>
 <span class="Identifier">assert</span> <span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">height</span> <span class="Operator">==</span> <span class="DecNumber">0</span></pre>
+&nbsp;&nbsp;<a
+href="https://github.com/Double-oxygeN/multistacks/tree/master/src/multistacks.nim#L189"
+class="link-seesrc" target="_blank">Source</a>
+&nbsp;&nbsp;<a href="https://github.com/Double-oxygeN/multistacks/edit/devel/src/multistacks.nim#L189" class="link-seesrc" target="_blank" >Edit</a>
+
+</dd>
+</div>
+<div id="popSingle,MultiStack[T]">
+<dt><pre><span class="Keyword">proc</span> <a href="#popSingle%2CMultiStack%5BT%5D"><span class="Identifier">popSingle</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">(</span><span class="Identifier">stack</span><span class="Other">:</span> <span class="Keyword">var</span> <a href="multistacks.html#MultiStack"><span class="Identifier">MultiStack</span></a><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">T</span><span class="Other">]</span></pre></dt>
+<dd>
+
+Pops the top values of the stack. This procedure always reduces the height of the stack by 1. If the stack is empty, an empty sequence is returned.
+<p><strong class="examples_text">Example:</strong></p>
+<pre class="listing"><span class="Keyword">var</span> <span class="Identifier">stack</span> <span class="Operator">=</span> <span class="Identifier">newMultiStack</span><span class="Punctuation">[</span><span class="Identifier">int</span><span class="Punctuation">]</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
+
+<span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">push</span><span class="Punctuation">(</span><span class="Punctuation">[</span><span class="Operator">@</span><span class="Punctuation">[</span><span class="DecNumber">0</span><span class="Punctuation">,</span> <span class="DecNumber">1</span><span class="Punctuation">,</span> <span class="DecNumber">2</span><span class="Punctuation">]</span><span class="Punctuation">]</span><span class="Punctuation">)</span>
+<span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">push</span><span class="Punctuation">(</span><span class="Punctuation">[</span><span class="Operator">@</span><span class="Punctuation">[</span><span class="DecNumber">3</span><span class="Punctuation">,</span> <span class="DecNumber">4</span><span class="Punctuation">]</span><span class="Punctuation">,</span> <span class="Operator">@</span><span class="Punctuation">[</span><span class="Punctuation">]</span><span class="Punctuation">,</span> <span class="Operator">@</span><span class="Punctuation">[</span><span class="DecNumber">5</span><span class="Punctuation">]</span><span class="Punctuation">]</span><span class="Punctuation">)</span>
+<span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">push</span><span class="Punctuation">(</span><span class="Punctuation">[</span><span class="Operator">@</span><span class="Punctuation">[</span><span class="Punctuation">]</span><span class="Punctuation">,</span> <span class="Operator">@</span><span class="Punctuation">[</span><span class="DecNumber">6</span><span class="Punctuation">,</span> <span class="DecNumber">7</span><span class="Punctuation">,</span> <span class="DecNumber">8</span><span class="Punctuation">]</span><span class="Punctuation">,</span> <span class="Operator">@</span><span class="Punctuation">[</span><span class="Punctuation">]</span><span class="Punctuation">,</span> <span class="Operator">@</span><span class="Punctuation">[</span><span class="DecNumber">9</span><span class="Punctuation">]</span><span class="Punctuation">]</span><span class="Punctuation">)</span>
+<span class="Identifier">assert</span> <span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">popSingle</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Operator">==</span> <span class="Operator">@</span><span class="Punctuation">[</span><span class="DecNumber">3</span><span class="Punctuation">,</span> <span class="DecNumber">6</span><span class="Punctuation">,</span> <span class="DecNumber">7</span><span class="Punctuation">,</span> <span class="DecNumber">8</span><span class="Punctuation">,</span> <span class="DecNumber">1</span><span class="Punctuation">,</span> <span class="DecNumber">9</span><span class="Punctuation">]</span>
+<span class="Identifier">assert</span> <span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">height</span> <span class="Operator">==</span> <span class="DecNumber">2</span>
+
+<span class="Identifier">assert</span> <span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">popSingle</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Operator">==</span> <span class="Operator">@</span><span class="Punctuation">[</span><span class="DecNumber">3</span><span class="Punctuation">,</span> <span class="DecNumber">4</span><span class="Punctuation">,</span> <span class="DecNumber">1</span><span class="Punctuation">,</span> <span class="DecNumber">5</span><span class="Punctuation">]</span>
+<span class="Identifier">assert</span> <span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">height</span> <span class="Operator">==</span> <span class="DecNumber">1</span>
+
+<span class="Identifier">assert</span> <span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">popSingle</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Operator">==</span> <span class="Operator">@</span><span class="Punctuation">[</span><span class="DecNumber">0</span><span class="Punctuation">,</span> <span class="DecNumber">1</span><span class="Punctuation">,</span> <span class="DecNumber">2</span><span class="Punctuation">]</span>
+<span class="Identifier">assert</span> <span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">height</span> <span class="Operator">==</span> <span class="DecNumber">0</span>
+
+<span class="Identifier">assert</span> <span class="Identifier">stack</span><span class="Operator">.</span><span class="Identifier">popSingle</span><span class="Punctuation">(</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">len</span> <span class="Operator">==</span> <span class="DecNumber">0</span></pre>
 &nbsp;&nbsp;<a
 href="https://github.com/Double-oxygeN/multistacks/tree/master/src/multistacks.nim#L146"
 class="link-seesrc" target="_blank">Source</a>
@@ -335,7 +368,7 @@ class="link-seesrc" target="_blank">Source</a>
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-05-14 07:30:23 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-05-14 08:44:23 UTC</small>
       </div>
     </div>
   </div>

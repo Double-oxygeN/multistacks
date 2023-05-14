@@ -4,5 +4,6 @@ height	multistacks.html#height,MultiStack[T]	multistacks: height[T](stack: Multi
 newMultiStack	multistacks.html#newMultiStack	multistacks: newMultiStack[T](): MultiStack[T]	
 push	multistacks.html#push,MultiStack[T],openArray[seq[T]]	multistacks: push[T](stack: var MultiStack[T]; valuesByTopIndex: openArray[seq[T]])	
 push	multistacks.html#push,MultiStack[T],openArray[T],openArray[Natural]	multistacks: push[T](stack: var MultiStack[T]; values: openArray[T];\n        onTopIndices: openArray[Natural])	
+popSingle	multistacks.html#popSingle,MultiStack[T]	multistacks: popSingle[T](stack: var MultiStack[T]): seq[T]	
 pop	multistacks.html#pop,MultiStack[T],Natural	multistacks: pop[T](stack: var MultiStack[T]; topIndex: Natural): T	
 isEmpty	multistacks.html#isEmpty,MultiStack[T]	multistacks: isEmpty[T](stack: MultiStack[T]): bool	
