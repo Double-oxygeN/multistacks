@@ -11,16 +11,19 @@ srcDir        = "src"
 
 requires "nim >= 1.6.12"
 
-# Helper procs
+# Helpers
 
 from os import splitFile
 
-proc forFilesRecursive(rootDir: string; f: (proc (filename: string))) =
-  for dir in listDirs(rootDir):
-    forFilesRecursive(dir, f)
+iterator filesRecursive(rootDir: string): string =
+  var dirs = if dirExists(rootDir): @[rootDir] else: @[]
+  while dirs.len > 0:
+    let dir = dirs.pop()
 
-  for file in listFiles(rootDir):
-    f(file)
+    for file in listFiles(dir):
+      yield file
+
+    dirs.add listDirs(dir)
 
 # Tasks
 
@@ -31,6 +34,6 @@ task cleanup, "Clean up intermediate files.":
   rmDir "nimcache"
   rmDir "testresults"
   # exec "find tests/multistacks/ -type f -not -name '*.nim' -delete"
-  forFilesRecursive("tests/multistacks") do (filename: string):
+  for filename in filesRecursive("tests/multistacks"):
     if splitFile(filename).ext != ".nim":
       rmFile filename
